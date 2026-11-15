@@ -22,12 +22,13 @@ class TaskTest(unittest.TestCase):
         ok, out = run_task({"id": "x", "cmd": 'python -c "import sys; sys.exit(2)"'})
         self.assertFalse(ok)
 
-    def test_stop_on_failure(self):
+    def test_failure_does_not_stop_unrelated_tasks(self):
         tasks = [{"id": "a", "cmd": 'python -c "print(1)"'},
                  {"id": "b", "cmd": 'python -c "import sys; sys.exit(1)"'},
                  {"id": "c", "cmd": 'python -c "print(3)"'}]
         results = run_all(tasks)
-        self.assertEqual(len(results), 2)
+        states = {r["id"]: r["status"] for r in results}
+        self.assertEqual(states, {"a": "ok", "b": "failed", "c": "ok"})
 
 
 if __name__ == "__main__":

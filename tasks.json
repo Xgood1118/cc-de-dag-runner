@@ -1,0 +1,59 @@
+{
+  "tasks": [
+    {
+      "id": "A",
+      "cmd": "python -c \"print('A ok')\""
+    },
+    {
+      "id": "B",
+      "cmd": "python -c \"print('B ok')\"",
+      "depends_on": [
+        "A"
+      ]
+    },
+    {
+      "id": "C",
+      "cmd": "python -c \"print('C ok')\"",
+      "depends_on": [
+        "A"
+      ]
+    },
+    {
+      "id": "D",
+      "cmd": "python -c \"print('D ok')\"",
+      "depends_on": [
+        "C"
+      ]
+    },
+    {
+      "id": "E",
+      "cmd": "python -c \"print('E ok')\"",
+      "depends_on": [
+        "F"
+      ]
+    },
+    {
+      "id": "F",
+      "cmd": "python -c \"print('F ok')\"",
+      "depends_on": [
+        "E"
+      ]
+    },
+    {
+      "id": "G",
+      "cmd": "python -c \"import sys; print('G failed'); sys.exit(3)\"",
+      "depends_on": [
+        "B",
+        "D"
+      ],
+      "retries": 2
+    },
+    {
+      "id": "H",
+      "cmd": "python -c \"print('H ok')\"",
+      "depends_on": [
+        "G"
+      ]
+    }
+  ]
+}
